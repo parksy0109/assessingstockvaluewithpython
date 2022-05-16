@@ -1,0 +1,7 @@
+pharmaceutical_code = "261"
+display_equipment_code = "269"
+automotive_parts_code = "270"
+chemistry_code = "272"
+semiconductor_code = "278"
+electronic_equipment = "282"
+machine_code = "299"
