@@ -2,17 +2,28 @@ import win32com.client
 import utilitys
 import pandas as pd
 
+# pands 설정
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 1000)
+pd.set_option('display.colheader_justify', 'center')
+pd.set_option('display.precision', 3)
+
+# 대신 증권 API 오브젝트 가져오기
 instCpCybos = win32com.client.Dispatch('CpUtil.CpCybos')
 instCpStockCode = win32com.client.Dispatch('CpUtil.CpStockCode')
 instMarketEye = win32com.client.Dispatch("CpSysDib.MarketEye")
 instCpCodMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
 
+# 데이터 담는 배열
 stockcodes = []
 stocknames = []
 stockfullcodes = []
 stockcurrentprice = []
 stockper = []
 stockeps = []
+resonablestockprice = []
+evaluatingbyper = []
 
 
 # 연결 확인하는 함수 return 값 1일 경우 연결된 상태
@@ -56,7 +67,10 @@ def getgroupcodelist(groupcode):
     for code in cod_list:
         getdata(code)
 
-    printdataframe()
+    peraverage = sum(stockper) / len(stockper)
+    printdataframe(peraverage)
+    print()
+    print(instCpCodMgr.GetIndustryName(groupcode) + " 해당 업종의 평균 PER = " + (sum(stockper) / len(stockper)).__str__())
 
 
 def getindustrylist():
@@ -70,7 +84,18 @@ def convertcodetoname(code):
     return name
 
 
-def printdataframe():
+def printdataframe(peraverage):
+    for i in range(0, len(stockeps)):
+        resonablestockprice.append(peraverage * stockeps[i])
+
+    for per in stockper:
+        if per < peraverage:
+            evaluatingbyper.append("저평가")
+        elif per == peraverage:
+            evaluatingbyper.append("평균")
+        elif per > peraverage:
+            evaluatingbyper.append("고평가")
+
     data = {
         '0': stockcodes,
         '1': stocknames,
@@ -78,6 +103,8 @@ def printdataframe():
         '3': stockcurrentprice,
         '4': stockper,
         '5': stockeps,
+        '6': resonablestockprice,
+        '7': evaluatingbyper
     }
     frame = pd.DataFrame(data)
     print(frame)
