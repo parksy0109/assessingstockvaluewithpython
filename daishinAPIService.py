@@ -97,14 +97,14 @@ def printdataframe(peraverage):
             evaluatingbyper.append("고평가")
 
     data = {
-        '0': stockcodes,
-        '1': stocknames,
-        '2': stockfullcodes,
-        '3': stockcurrentprice,
-        '4': stockper,
-        '5': stockeps,
-        '6': resonablestockprice,
-        '7': evaluatingbyper
+        # '코드': stockcodes,
+        '이름': stocknames,
+        # '풀코드': stockfullcodes,
+        '현재가': stockcurrentprice,
+        'PER': stockper,
+        'EPS': stockeps,
+        '적정주가': resonablestockprice,
+        '평가': evaluatingbyper
     }
     frame = pd.DataFrame(data)
     print(frame)
