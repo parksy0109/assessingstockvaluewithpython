@@ -1,5 +1,4 @@
 import win32com.client
-import utilitys
 import pandas as pd
 
 # pands 설정
@@ -45,7 +44,6 @@ def getdata(code):
 
 # 주식 이름으로 해당 인덱스랑 종목 코드 검색하는 함수
 def findbystockname(stockname):
-    utilitys.printlog("findbystockname", stockname)
     stock_count = instCpStockCode.GetCount()
     for i in range(0, stock_count):
         if instCpStockCode.GetData(1, i) == stockname:
