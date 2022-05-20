@@ -35,6 +35,7 @@ class StockRepositoryImpl(StockRepository):
         return self.instCpCodMgr.GetGroupCodeList(groupCode)
 
     def findStocksByGroupCode(self, groupCode):
+        Log.d("StockRepositoryImpl", "findStocksByGroupCode", groupCode)
         stocks: list[Stock] = []
         stockCodes = self.findStockCodesByGroupCode(groupCode)
         for stockCode in stockCodes:
