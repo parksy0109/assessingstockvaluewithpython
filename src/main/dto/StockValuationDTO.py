@@ -35,8 +35,8 @@ class StockValuationDTO:
         return StockValuationDTO(
             stock.name,
             stock.currentPrice,
-            stock.priceEarningsRatio,
-            stock.earningPerShare,
-            stock.earningPerShare * averagePER,
+            round(stock.priceEarningsRatio, 3),
+            round(stock.earningPerShare, 3),
+            round(stock.earningPerShare * averagePER, 3),
             evaluation
         )

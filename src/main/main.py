@@ -7,5 +7,5 @@ if __name__ == '__main__':
     impl = StockServiceImpl()
     view = MainView()
 
-    per_average = impl.getRatedStocksAtPERAverage(GroupCodes.STEEL_METAL)
+    per_average = impl.getRatedStocksAtPERAverage(GroupCodes.MACHINE)
     view.showTkinterTable(per_average)
