@@ -10,7 +10,10 @@
 4. 현재 주가와 적정 주가를 비교해 '고평가', '저평가', '평균' 3가지 단계로 나누어준다
 5. tkinter 를 이용해 테이블로 해당 데이터 보여준다
 
-table ex)
+Table EX)
 이름 | 현재가 | PER | EPS | 적정주가 | 평가
 ---|---|---|---|---|---|
 SBank|3200.0|32.0|100|8000.0|저평가
+
+Tkinter Table
+![깃허브](https://user-images.githubusercontent.com/85792293/169627332-bd971ae6-6a80-4a91-94a4-ea96ce6b6fc8.png)
