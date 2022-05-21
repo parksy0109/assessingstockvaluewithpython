@@ -1,6 +1,11 @@
 from src.main.constants.GroupCodes import GroupCodes
-import daishinapiservice
+from src.main.stock.StockServiceImpl import StockServiceImpl
+from src.main.view.MainView import MainView
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    daishinapiservice.getgroupcodelist(GroupCodes.STEEL_METAL)
+    impl = StockServiceImpl()
+    view = MainView()
+
+    per_average = impl.getRatedStocksAtPERAverage(GroupCodes.STEEL_METAL)
+    view.showTkinterTable(per_average)
