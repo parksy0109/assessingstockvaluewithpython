@@ -24,3 +24,6 @@ http://cybosplus.github.io/
 
 Python KRX API
 https://github.com/sharebook-kr/pykrx
+
+대신증권 Cybos Plus 자료실
+http://money2.daishin.com/e5/mboard/ptype_basic/plusPDS/DW_Basic_List.aspx?boardseq=299&m=9508&p=8831&v=8638
