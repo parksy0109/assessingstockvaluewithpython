@@ -1,4 +1,11 @@
 from pykrx import stock
+import pandas as pd
+
+# 테이블 설정 전체 보기
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
 
 if __name__ == '__main__':
     # StartDate , EndDate, StockCode
@@ -6,6 +13,7 @@ if __name__ == '__main__':
     endDate = '20220522'
     stockCode = '005930'
     df = stock.get_market_fundamental(startDate, endDate, stockCode, freq='d', name_display=True)
+
     values = df.columns.values
     perList = df['PER'].tolist()
     pbrList = df['PBR'].tolist()
