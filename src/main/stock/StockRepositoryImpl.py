@@ -19,7 +19,8 @@ class StockRepositoryImpl(StockRepository):
         Log.d("StockRepositoryImpl", "findByStockCode", stockCode)
 
         # instMarketEye Setting
-        self.instMarketEye.SetInputValue(0, (4, 67, 70, 111))
+        # 4 - 현재가, 67 - PER, 70 - EPS, 107 - 분기 ROE, 111 - 최근분기년월
+        self.instMarketEye.SetInputValue(0, (4, 67, 70, 107, 111))
         self.instMarketEye.SetInputValue(1, stockCode)
         self.instMarketEye.BlockRequest()
 
