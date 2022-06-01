@@ -1,43 +1,47 @@
 from pykrx import stock
 from src.main.krx.PyKRXService import PyKRXService
-from src.main.stock.StockServiceImpl import StockServiceImpl
+from src.main.krx.PyKRX import PyKRX
+import pandas as pd
+
+# # 테이블 설정 전체 보기
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
 
 
 class PyKRXServiceImpl(PyKRXService):
-    def getRatedStocksAtPERAverage(self, groupCode):
-        # StockService 구현체 초기화
-        stockService = StockServiceImpl()
+    def getStockDataByPeriod(self, stockCode):
+        # StartDate , EndDate, StockCode
+        startDate = '20220101'
+        endDate = '20220602'
+        df = stock.get_market_fundamental(startDate, endDate, stockCode, freq='d', name_display=True)
 
-        # 그룹코드로 주식 이름 가져와 DTO 로 변환하여 넣어준다
-        # return : list[StockValuationDTO]
-        stockValuationDTOs = stockService.getRatedStocksAtPERAverage(groupCode)
+        dateIndex = df.index.values
+        values = df.columns.values
 
-        # StockCodes 초기화
-        stockCodes: list[str] = []
+        bpsList = df['BPS'].tolist()
+        perList = df['PER'].tolist()
+        pbrList = df['PBR'].tolist()
+        epsList = df['EPS'].tolist()
+        divList = df['DIV'].tolist()
+        dpsList = df['DPS'].tolist()
 
-        for stockValuationDTO in stockValuationDTOs:
-            stockCodes.append(stockValuationDTO.name)
+        result: list[PyKRX] = []
 
-        for i in range(0, len(stockCodes)):
-            # StartDate , EndDate, StockCode
-            startDate = '20220101'
-            endDate = '20220522'
-            stockCode = stockCodes[i]
-            df = stock.get_market_fundamental(startDate, endDate, stockCode, freq='d', name_display=True)
+        for i in range(0, len(bpsList)):
+            result.append(PyKRX(str(dateIndex[i])[0:11],
+                                bpsList[i],
+                                perList[i],
+                                round(pbrList[i], 2),
+                                epsList[i],
+                                round(divList[i], 2),
+                                dpsList[i]))
 
-            values = df.columns.values
-            perList = df['PER'].tolist()
-            pbrList = df['PBR'].tolist()
+        return result
 
-            ticker_list = stock.get_market_ticker_list()
 
-            stockName: str
-
-            print(stock.get_market_ticker_name(stockCode))
-            print(startDate + " 부터 " + endDate + " 까지 평균 PER :: " + round((sum(perList) / len(perList)), 2).__str__())
-
-            print(startDate + " 부터 " + endDate + " 까지 평균 PBR :: " + round((sum(pbrList) / len(pbrList)), 2).__str__(),
-                  end="\n\n")
-
-            print(endDate + " PER :: " + str(round(perList[-1], 2)))
-            print(endDate + " PBR :: " + str(round(pbrList[-1], 2)), end="\n\n")
+if __name__ == '__main__':
+    impl = PyKRXServiceImpl()
+    period = impl.getStockDataByPeriod("000990")
+    print(period)

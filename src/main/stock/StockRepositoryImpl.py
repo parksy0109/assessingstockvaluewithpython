@@ -26,9 +26,11 @@ class StockRepositoryImpl(StockRepository):
 
         # 조회를 통해 나온 데이터 Stock Object 로 만들어 리턴
         return Stock(self.instCpStockCode.GetData(1, self.instCpStockCode.CodeToIndex(stockCode)),
+                     stockCode[1:],
                      self.instMarketEye.GetDataValue(0, 0),
                      self.instMarketEye.GetDataValue(1, 0),
-                     self.instMarketEye.GetDataValue(2, 0))
+                     self.instMarketEye.GetDataValue(2, 0),
+                     self.instMarketEye.GetDataValue(3, 0))
 
     # 그룹 코드를 파라미터로 받아 해당 그룹의 종목 코드 리스트를 반환하는 메소드
     def findStockCodesByGroupCode(self, groupCode):
@@ -40,5 +42,6 @@ class StockRepositoryImpl(StockRepository):
         stocks: list[Stock] = []
         stockCodes = self.findStockCodesByGroupCode(groupCode)
         for stockCode in stockCodes:
-            stocks.append(self.findByStockCode(stockCode))
+            if self.findByStockCode(stockCode).priceEarningsRatio != 0:
+                stocks.append(self.findByStockCode(stockCode))
         return stocks

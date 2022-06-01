@@ -4,5 +4,5 @@ import abc
 class MultipleLinearRegressionService(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def getRatedStocksAtPERAverage(self, groupCode):
+    def forecastingStockPriceByMultiLinearRegression(self, groupCode):
         raise NotImplemented

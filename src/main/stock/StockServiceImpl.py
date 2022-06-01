@@ -9,7 +9,7 @@ from src.main.utilitys.LogUtils import Log
 class StockServiceImpl(StockService):
     stockRepository: StockRepository = StockRepositoryImpl()
 
-    def getRatedStocksAtPERAverage(self, groupCode):
+    def getDatasByStockDTO(self, groupCode):
         Log.d("StockServiceImpl", "getRatedStocksAtPERAverage", groupCode)
         stockValuationDTOs: list[StockValuationDTO] = []
         stockPERs: list[float] = []
