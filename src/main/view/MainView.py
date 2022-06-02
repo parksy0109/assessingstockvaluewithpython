@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import *
 from tkinter import ttk
 
@@ -5,6 +6,9 @@ from src.main.krx.PyKRXServiceImpl import PyKRXServiceImpl
 from src.main.utilitys.StockCodeUtilitys import StockCodeUtilitys
 
 from src.main.utilitys.LogUtils import Log
+from src.main.krx.PyKRX import PyKRX
+
+import matplotlib.pyplot as plt
 
 
 class MainView:
@@ -104,7 +108,7 @@ class MainView:
 
         # 트리뷰 초기화
         treeview2 = ttk.Treeview(root2, columns=["one", "two", "three", "four", "five", "six", "seven"],
-                                displaycolumns=["one", "two", "three", "four", "five", "six", "seven"], height=30)
+                                 displaycolumns=["one", "two", "three", "four", "five", "six", "seven"], height=30)
 
         labelTitle = Label(root2, text="해당 종목 상세 내역")
         labelTitle.pack()
@@ -153,7 +157,40 @@ class MainView:
 
         root2.mainloop()
 
+    def showGraph(self, PyKRXs):
+
+        kr_xs = list[PyKRX](PyKRXs)
+
+        x_date_list = []
+
+        y1_BPS_list = []
+        y2_PER_list = []
+        y3_PBR_list = []
+        y4_EPS_list = []
+        y5_DIV_list = []
+        y6_DPS_list = []
+
+        for krx in kr_xs:
+            # 그래프 x 축 값
+            x_date_list.append(krx.date)
+
+            # 그래프 y 축 값
+            y1_BPS_list.append(krx.BPS)
+            y2_PER_list.append(krx.PER)
+            y3_PBR_list.append(krx.PBR)
+            y4_EPS_list.append(krx.EPS)
+            y5_DIV_list.append(krx.DIV)
+            y6_DPS_list.append(krx.DPS)
+
+        plt.plot(x_date_list, y1_BPS_list)  # 첫번째 라인 BPS
+        plt.plot(x_date_list, y2_PER_list)  # 두번째 라인 PER
+        plt.plot(x_date_list, y3_PBR_list)  # 세번째 라인 PBR
+        plt.plot(x_date_list, y4_EPS_list)  # 네번째 라인 EPS
+        plt.plot(x_date_list, y5_DIV_list)  # 다섯번째 라인 DIV
+        plt.plot(x_date_list, y6_DPS_list)  # 여섯번째 라인 DPS
+        plt.legend()
+        plt.show()
+
 
 if __name__ == '__main__':
     view = MainView()
-    print("hi")
