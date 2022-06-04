@@ -3,7 +3,6 @@ import pandas_datareader.data as web
 import datetime
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-import seaborn
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)

@@ -19,14 +19,16 @@ def checkConnecting():
 if __name__ == '__main__':
 
     window = Tk()
-    window.title("4번째 시간")
-    window.geometry("300x200+100+100")
+    window.title("종목을 입력해주세요")
+    window.geometry("1000x100")
     window.resizable(False, False)
 
 
     def Calculate():
         groupName = str(entry.get())
         if checkConnecting():
+            impl = StockServiceImpl()
+            view = MainView()
             per_average = impl.getDatasByStockDTO(GroupCodes.GROUP_CODES[groupName])
             view.showTkinterTable(per_average, groupName)
         else:
@@ -36,12 +38,10 @@ if __name__ == '__main__':
     entry = Entry(window)
     entry.pack()
 
-    button = Button(window, text="다음", command=Calculate)
+    button = Button(window, text="검색", command=Calculate)
     button.pack()
 
-    label = Label(window)
+    label = Label(window, text=GroupCodes.GROUP_CODES.keys())
     label.pack()
 
     window.mainloop()
-    impl = StockServiceImpl()
-    view = MainView()

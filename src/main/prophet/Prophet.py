@@ -2,7 +2,8 @@ import pandas as pd
 import pandas_datareader.data as web
 import datetime
 import matplotlib.pyplot as plt
-from fbprophet import Prophet
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -58,18 +59,5 @@ def makeDataFrame(code, sDay=start, eDay=end):
 
 if __name__ == '__main__':
     samsung_code = '005930.KS'
-    model = Prophet(daily_seasonality=True)
+    data_df = makeDataFrame(samsung_code)
 
-    model.fit(makeDataFrame(samsung_code))
-
-    future = model.make_future_dataframe(periods=30)
-
-    forecast = model.predict(future)
-
-    print(forecast.tail(10))
-
-    print(forecast[['ds', 'yhat']].tail(30))
-
-    plot = model.plot(forecast.tail(30))
-    # model.plot_components(forecast)
-    plt.show()

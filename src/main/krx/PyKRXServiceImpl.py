@@ -30,7 +30,8 @@ class PyKRXServiceImpl(PyKRXService):
         result: list[PyKRX] = []
 
         for i in range(0, len(bpsList)):
-            result.append(PyKRX(str(dateIndex[i])[0:11],
+            result.append(PyKRX(str(dateIndex[i])[0:10],
+                                round(perList[i] * epsList[i], 2),
                                 bpsList[i],
                                 perList[i],
                                 round(pbrList[i], 2),
@@ -39,6 +40,14 @@ class PyKRXServiceImpl(PyKRXService):
                                 dpsList[i]))
 
         return result
+
+    def getDataFrameByStock(self, stockCode):
+        # StartDate , EndDate, StockCode
+        startDate = '20220101'
+        endDate = '20220602'
+        df = stock.get_market_fundamental(startDate, endDate, stockCode, freq='d', name_display=True)
+        print(df)
+        return df
 
 
 if __name__ == '__main__':

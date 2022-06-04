@@ -28,14 +28,13 @@ class StockValuationDTO:
     @staticmethod
     def transfer(stock: Stock, averagePER):
         evaluation: str
-        if stock.priceEarningsRatio == 0:
-            evaluation = "측정불가"
-        elif stock.priceEarningsRatio < averagePER:
-            evaluation = "저평가"
-        elif stock.priceEarningsRatio == averagePER:
-            evaluation = "평균"
+        per = stock.earningPerShare * averagePER
+        if stock.currentPrice > per:
+            evaluation = "☆"
+        elif stock.currentPrice == per:
+            evaluation = "="
         else:
-            evaluation = "고평가"
+            evaluation = "★"
 
         return StockValuationDTO(
             stock.name,
