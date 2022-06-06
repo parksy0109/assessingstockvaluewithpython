@@ -17,14 +17,17 @@ class PyKRXServiceImpl(PyKRXService):
     def predict(self, stockCode):
         # StartDate , EndDate, StockCode
         startDate = '20210101'
-        startDate2 = '20201201'
-        endDate = '20220601'
-        endDate2 = '20220430'
+        startDate2 = '20201202'
+        endDate = '20220603'
+        endDate2 = '20220504'
         df1 = stock.get_market_fundamental(startDate2, endDate2, stockCode, freq='d', name_display=True)
         df2 = stock.get_market_ohlcv(startDate, endDate, stockCode)
 
+        df3 = stock.get_market_fundamental('2022-04-29', '2022-06-03', stockCode, freq='d', name_display=True)
+
         print(df1)
         print(df2)
+        print(df3)
 
         # perList = df1['PER'].to_list()
         # pbrList = df1['PBR'].to_list()
@@ -43,12 +46,15 @@ class PyKRXServiceImpl(PyKRXService):
         y = y.to_numpy()
 
         df3 = stock.get_market_fundamental("2022-06-03", "2022-06-05", stockCode, freq='d', name_display=True)
-        print(df3)
 
         mlr = LinearRegression()
         mlr.fit(x, y)
 
-        my_stock = [[16.7, 2.32, 1021]]
+        per_ = df3['PER'].values[0]
+        pbr_ = df3['PBR'].values[0]
+        eps_ = df3['EPS'].values[0]
+
+        my_stock = [[per_, pbr_, eps_]]
         predict = mlr.predict(my_stock)
         print(predict)
 

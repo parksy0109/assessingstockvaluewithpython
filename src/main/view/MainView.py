@@ -95,70 +95,72 @@ class MainView:
 
         impl = PyKRXServiceImpl()
 
-        period = impl.getStockDataByPeriod(stringStockCode)
-        
-        Log.d("MainView", "clickItem", str(period[1].date))
+        period = impl.predict(stringStockCode)
 
-        # GUI창을 생성하고 라벨을 설정한다.
-        root2 = Tk()
-        root2.title("상세 내용")
-        root2.geometry("2000x700")
-        root2.resizable(False, False)
+        print(period)
 
-        # 트리뷰 초기화
-        treeview2 = ttk.Treeview(root2, columns=["one", "two", "three", "four", "five", "six", "seven", "eight"],
-                                 displaycolumns=["one", "two", "three", "four", "five", "six", "seven", "eight"],
-                                 height=30)
-
-        labelTitle = Label(root2, text="해당 종목 상세 내역")
-        labelTitle.pack()
-
-        labelSubtiltle = Label(root2, text="오늘 날짜 데이터")
-        labelSubtiltle.pack()
-
-        labelContent = Label(root2, text=getValue)
-        labelContent.pack()
-
-        treeview2.pack()
-
-        # 각 컬럼 설정. 컬럼 이름, 컬럼 넓이, 정렬 등
-        treeview2.column("#0", width=100, )
-        treeview2.heading("#0", text="순번")
-
-        treeview2.column("#1", width=200, anchor="center")
-        treeview2.heading("one", text="날짜", anchor="center")
-
-        treeview2.column("#2", width=150, anchor="center")
-        treeview2.heading("two", text="종가", anchor="center")
-
-        treeview2.column("#3", width=150, anchor="center")
-        treeview2.heading("three", text="주당순자산(BPS)", anchor="center")
-
-        treeview2.column("#4", width=200, anchor="center")
-        treeview2.heading("four", text="주가수익비율(PER)", anchor="center")
-
-        treeview2.column("#5", width=150, anchor="center")
-        treeview2.heading("five", text="주가순자산비율(PBR)", anchor="center")
-
-        treeview2.column("#6", width=200, anchor="center")
-        treeview2.heading("six", text="주당순이익(EPS)", anchor="center")
-
-        treeview2.column("#7", width=200, anchor="center")
-        treeview2.heading("seven", text="배당수익률(DIV)", anchor="center")
-
-        treeview2.column("#8", width=300, anchor="center")
-        treeview2.heading("eight", text="주당배당금(DPS)", anchor="center")
+        # Log.d("MainView", "clickItem", str(period[1].date))
+        #
+        # # GUI창을 생성하고 라벨을 설정한다.
+        # root2 = Tk()
+        # root2.title("상세 내용")
+        # root2.geometry("2000x700")
+        # root2.resizable(False, False)
+        #
+        # # 트리뷰 초기화
+        # treeview2 = ttk.Treeview(root2, columns=["one", "two", "three", "four", "five", "six", "seven", "eight"],
+        #                          displaycolumns=["one", "two", "three", "four", "five", "six", "seven", "eight"],
+        #                          height=30)
+        #
+        # labelTitle = Label(root2, text="해당 종목 상세 내역")
+        # labelTitle.pack()
+        #
+        # labelSubtiltle = Label(root2, text="오늘 날짜 데이터")
+        # labelSubtiltle.pack()
+        #
+        # labelContent = Label(root2, text=getValue)
+        # labelContent.pack()
+        #
+        # treeview2.pack()
+        #
+        # # 각 컬럼 설정. 컬럼 이름, 컬럼 넓이, 정렬 등
+        # treeview2.column("#0", width=100, )
+        # treeview2.heading("#0", text="순번")
+        #
+        # treeview2.column("#1", width=200, anchor="center")
+        # treeview2.heading("one", text="날짜", anchor="center")
+        #
+        # treeview2.column("#2", width=150, anchor="center")
+        # treeview2.heading("two", text="종가", anchor="center")
+        #
+        # treeview2.column("#3", width=150, anchor="center")
+        # treeview2.heading("three", text="주당순자산(BPS)", anchor="center")
+        #
+        # treeview2.column("#4", width=200, anchor="center")
+        # treeview2.heading("four", text="주가수익비율(PER)", anchor="center")
+        #
+        # treeview2.column("#5", width=150, anchor="center")
+        # treeview2.heading("five", text="주가순자산비율(PBR)", anchor="center")
+        #
+        # treeview2.column("#6", width=200, anchor="center")
+        # treeview2.heading("six", text="주당순이익(EPS)", anchor="center")
+        #
+        # treeview2.column("#7", width=200, anchor="center")
+        # treeview2.heading("seven", text="배당수익률(DIV)", anchor="center")
+        #
+        # treeview2.column("#8", width=300, anchor="center")
+        # treeview2.heading("eight", text="주당배당금(DPS)", anchor="center")
         #
         # treeview.column("#7", width=200, anchor="center")
         # treeview.heading("seven", text="평가", anchor="center")
 
-        for i in range(len(period)):
-            value = [period[i].date, period[i].currentPrice, period[i].BPS, period[i].PER, period[i].PBR,
-                     period[i].EPS,
-                     period[i].DIV, period[i].DPS]
-            treeview2.insert('', 'end', text=i, values=value, iid=str(i) + "번")
-
-        root2.mainloop()
+        # for i in range(len(period)):
+        #     value = [period[i].date, period[i].currentPrice, period[i].BPS, period[i].PER, period[i].PBR,
+        #              period[i].EPS,
+        #              period[i].DIV, period[i].DPS]
+        #     treeview2.insert('', 'end', text=i, values=value, iid=str(i) + "번")
+        #
+        # root2.mainloop()
 
     def showGraph(self, PyKRXs):
 
