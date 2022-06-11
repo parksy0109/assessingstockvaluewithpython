@@ -4,7 +4,7 @@ from src.main.krx.PyKRX import PyKRX
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
-
+import pandas as pd
 
 # # # 테이블 설정 전체 보기
 # pd.set_option('display.max_rows', None)
@@ -12,16 +12,59 @@ import matplotlib.pyplot as plt
 # pd.set_option('display.width', None)
 # pd.set_option('display.max_colwidth', None)
 
+independentStartDate = '20210101'
+dependentStartDate = '20201202'
+independentEndDate = '20220603'
+dependentEndDate = '20220504'
+
 
 class PyKRXServiceImpl(PyKRXService):
+    def predictlist(self, stockCodeList):
+        dependentDataFrame = pd.DataFrame()
+        independentDataFrame = pd.DataFrame()
+
+        print(dependentDataFrame)
+        print(independentDataFrame)
+
+        for item in stockCodeList:
+            if dependentDataFrame.empty:
+                dependentDataFrame = self.getDependentData(item)
+                independentDataFrame = self.getIndependentData(item)
+            else:
+                dependentDataFrame = pd.concat([dependentDataFrame, self.getDependentData(item)])
+                independentDataFrame = pd.concat([independentStartDate, self.getIndependentData(item)])
+
+        print(dependentDataFrame)
+        print(independentDataFrame)
+
+    def getDependentData(self, stockCode):
+        global dependentStartDate
+        global dependentEndDate
+        df1 = stock.get_market_fundamental(dependentStartDate, dependentEndDate, stockCode, freq='d', name_display=True)
+
+        x = df1[['PER', 'PBR', 'EPS']]
+        x = x.reset_index(drop=True, inplace=True)
+        print(x)
+        return x
+
+    def getIndependentData(self, stockCode):
+        global dependentStartDate
+        global dependentEndDate
+        df1 = stock.get_market_ohlcv(independentStartDate, independentEndDate, stockCode)
+
+        y = df1[['종가']]
+        y = y.reset_index(drop=True, inplace=True)
+        print(y)
+        return y
+
     def predict(self, stockCode):
         # StartDate , EndDate, StockCode
-        startDate = '20210101'
-        startDate2 = '20201202'
-        endDate = '20220603'
-        endDate2 = '20220504'
-        df1 = stock.get_market_fundamental(startDate2, endDate2, stockCode, freq='d', name_display=True)
-        df2 = stock.get_market_ohlcv(startDate, endDate, stockCode)
+        global independentStartDate
+        global dependentStartDate
+        global independentEndDate
+        global dependentEndDate
+        df1 = stock.get_market_fundamental(dependentStartDate, dependentEndDate, stockCode, freq='d', name_display=True)
+        df2 = stock.get_market_ohlcv(independentStartDate, independentEndDate, stockCode)
 
         df3 = stock.get_market_fundamental('2022-04-29', '2022-06-03', stockCode, freq='d', name_display=True)
 
