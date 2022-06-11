@@ -19,20 +19,18 @@ dependentEndDate = '20220504'
 
 
 class PyKRXServiceImpl(PyKRXService):
+
     def predictlist(self, stockCodeList):
-        dependentDataFrame = pd.DataFrame()
-        independentDataFrame = pd.DataFrame()
+        dependentDataFrame = self.getDependentData(stockCodeList[0])
+        independentDataFrame = self.getIndependentData(stockCodeList[0])
 
         print(dependentDataFrame)
         print(independentDataFrame)
 
-        for item in stockCodeList:
-            if dependentDataFrame.empty:
-                dependentDataFrame = self.getDependentData(item)
-                independentDataFrame = self.getIndependentData(item)
-            else:
-                dependentDataFrame = pd.concat([dependentDataFrame, self.getDependentData(item)])
-                independentDataFrame = pd.concat([independentStartDate, self.getIndependentData(item)])
+        for i in range(0, len(stockCodeList)):
+            if i != 0:
+                dependentDataFrame = pd.concat([dependentDataFrame, self.getDependentData(stockCodeList[i])])
+                independentDataFrame = pd.concat([independentStartDate, self.getIndependentData(stockCodeList[i])])
 
         print(dependentDataFrame)
         print(independentDataFrame)
@@ -43,7 +41,7 @@ class PyKRXServiceImpl(PyKRXService):
         df1 = stock.get_market_fundamental(dependentStartDate, dependentEndDate, stockCode, freq='d', name_display=True)
 
         x = df1[['PER', 'PBR', 'EPS']]
-        x = x.reset_index(drop=True, inplace=True)
+        x = x.reset_index(drop=True)
         print(x)
         return x
 
@@ -53,7 +51,7 @@ class PyKRXServiceImpl(PyKRXService):
         df1 = stock.get_market_ohlcv(independentStartDate, independentEndDate, stockCode)
 
         y = df1[['종가']]
-        y = y.reset_index(drop=True, inplace=True)
+        y = y.reset_index(drop=True)
         print(y)
         return y
 
